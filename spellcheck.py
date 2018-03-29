@@ -4,6 +4,9 @@ import re
 import argparse
 from termcolor import colored
 
+try: input = raw_input
+except NameError: pass
+
 parser = argparse.ArgumentParser(description='Find common english mistakes with regex.')
 parser.add_argument('file', metavar='FILE', type=str, nargs='+', help='Text file(s) to check')
 parser.add_argument('--whitespace', '-w', action='store_true', help='Also detect whitespace issues')
@@ -37,7 +40,7 @@ for filename in args.file:
         fcontent = f.read()
 
     for i, line in enumerate(fcontent.split('\n')):
-        for expression, replacement in patterns.iteritems():
+        for expression, replacement in patterns.items():
             p = re.compile(expression, flags=0)
             mi = p.finditer(line)
             for m in mi:
@@ -48,7 +51,7 @@ for filename in args.file:
                 r = colored(m.expand(replacement), 'blue', attrs=['bold', 'underline'])
                 print('      {0}{1}{2}'.format(before, r, after))
                 if not args.all:
-                    c= raw_input('')
+                    c= input('')
                 #c = raw_input('Replace with "' + r + '" [y/N]')
                 #if c == 'Y':
                 #    print('Replacement not implemented yet...')
