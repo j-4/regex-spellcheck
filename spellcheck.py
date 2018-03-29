@@ -15,18 +15,18 @@ parser.add_argument('--all', '-a', action='store_true', help='Print all matches 
 args = parser.parse_args()
 
 whitespacePattern = {
-    r'(\s+)\1': r'\1',
-    r'([;,\.?!])([A-Za-z]+)\b': r'\1 \2',
-    r'\([\s]+': r'(',
-    r'[\s]+\)': r')',
-    r'\s+([:;,\.?!][A-Za-z])': r'\1'
+    r'(\s+)\1': r'\1',                      # duplicate whitespace
+    r'([;,\.?!])([A-Za-z]+)\b': r'\1 \2',   # missing whitespace after symbol
+    r'\([\s]+': r'(',                       # whitespace after bracket
+    r'[\s]+\)': r')',                       # whitespace before bracket
+    r'\s+([:;,\.?!][A-Za-z])': r'\1'        # whitespace before symbol
 }
 
 grammarPattern = {
-    r'\sa(\s[aeiou])': r' an\1',
-    r'\san(\s[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z])': r' a\1',
-    r'(^[\.]\w\.\s)([a-z])': r'\1\2',
-    r'\b(\w+)\s+\1\b': r'\1'
+    r'\sa(\s[aeiou])': r' an\1',            # a instead of an
+    r'\san(\s[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z])': r' a\1',   # an instead of a
+    r'(^[\.]\w\.\s)([a-z])': r'\1\2',       # missing initial capital letter
+    r'\b(\w+)\s+\1\b': r'\1'                # duplicate words
 }
 
 patterns = grammarPattern
